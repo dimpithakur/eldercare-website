@@ -1,0 +1,159 @@
+:root {
+  --primary: #4CAF50;
+  --secondary: #388E3C;
+  --danger: #e53935;
+  --bg-light: #f9f9f9;
+  --text-dark: #333;
+  --border: #ccc;
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  line-height: 1.6;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  color: var(--primary);
+  font-size: 2rem;
+}
+
+nav {
+  background: var(--primary);
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 8px 14px;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  background: var(--secondary);
+}
+
+nav a.active {
+  background: #2e7d32;
+}
+
+form {
+  background: white;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px var(--shadow);
+  margin: 20px auto;
+  max-width: 800px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+form label,
+form h2,
+form h3 {
+  grid-column: span 2;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+
+.btn {
+  grid-column: span 2;
+  display: inline-block;
+  padding: 10px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: var(--secondary);
+}
+
+
+.btn-sos {
+  background: var(--danger);
+}
+
+.btn-sos:hover {
+  background: #b71c1c;
+}
+
+
+section {
+  max-width: 800px;
+  margin: 20px auto;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px var(--shadow);
+}
+
+ul {
+  margin: 10px 0 20px 20px;
+}
+
+
+footer {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+  form {
+    grid-template-columns: 1fr;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

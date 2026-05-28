@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ElderCare - Reminders</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header><h1>Daily Reminders</h1></header>
+
+
+  <nav>
+    <a href="profile.html">Profile</a>
+    <a href="assistance.html">Assistance</a>
+    <a href="community.html">Community</a>
+    <a href="reminder.html" class="active">Reminders</a>
+    <a href="safety.html">SOS / Safety</a>
+  </nav>
+
+
+  <main>
+    <form id="reminderForm">
+      <label>Drink Water at: <input type="time" name="water"></label>
+      <label>Go for Walk at: <input type="time" name="walk"></label>
+      <label>Take Meals at: <input type="time" name="meals"></label>
+      <label>Rest/Nap Time: <input type="time" name="rest"></label>
+      <button type="submit" class="btn">Start Reminders</button>
+    </form>
+
+
+    <section>
+      <h2> Active Reminders</h2>
+      <ul id="reminderList"></ul>
+    </section>
+  </main>
+
+
+  <footer><p>© 2025 ElderCare</p></footer>
+
+
+  <script>
+    const form = document.getElementById("reminderForm");
+    const list = document.getElementById("reminderList");
+
+
+    // Ask for notification permission
+    window.onload = function () {
+      if ("Notification" in window && Notification.permission !== "granted") {
+        Notification.requestPermission();
+      }
+    };
+
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+
+      const reminders = {
+        water: form.water.value,
+        walk: form.walk.value,
+        meals: form.meals.value,
+        rest: form.rest.value
+      };
+
+
+      displayReminders(reminders);
+      scheduleNotifications(reminders);
+      alert(" Reminders have been set! You’ll get notifications at the chosen times.");
+    });
+
+
+    function displayReminders(reminders) {
+      list.innerHTML = "";
+      for (const [activity, time] of Object.entries(reminders)) {
+        if (time) {
+          const li = document.createElement("li");
+          li.textContent = `${activity.toUpperCase()} → ${time}`;
+          list.appendChild(li);
+        }
+      }
+    }
+
+
+    function scheduleNotifications(reminders) {
+      for (const [activity, time] of Object.entries(reminders)) {
+        if (!time) continue;
+
+
+        const [hours, minutes] = time.split(":").map(Number);
+        const now = new Date();
+        const target = new Date();
+
+
+        target.setHours(hours, minutes, 0, 0);
+
+
+        
+        if (target <= now) target.setDate(target.getDate() + 1);
+
+
+        const delay = target - now; 
+
+        setTimeout(() => {
+          showNotification(activity);
+          // Repeat every 24 hours
+          setInterval(() => showNotification(activity), 24 * 60 * 60 * 1000);
+        }, delay);
+      }
+    }
+
+
+    function showNotification(activity) {
+      if (Notification.permission === "granted") {
+        new Notification(" ElderCare Reminder", {
+          body: `It's time to ${activity.toUpperCase()}!`,
+          icon: "https://cdn-icons-png.flaticon.com/512/1827/1827349.png"
+        });
+      } else {
+        alert(`It's time to ${activity}!`);
+      }
+    }
+  </script>
+</body>
+</html>

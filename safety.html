@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ElderCare - Safety & Security</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><h1>Safety & Security</h1></header>
+
+
+<nav>
+<a href="profile.html">Profile</a>
+<a href="assistance.html">Assistance</a>
+<a href="community.html">Community</a>
+<a href="reminder.html">Reminders</a>
+<a href="safety.html" class="active">SOS / Safety</a>
+</nav>
+
+
+<main>
+<section>
+<h2> Emergency SOS</h2>
+<button class="btn btn-sos" onclick="sendWhatsApp()">Send SOS to Family</button>
+<p id="sos-status"></p>
+</section>
+
+
+<section>
+<h2>🛰 GPS Tracking</h2>
+<p>(Live location will be shared with family in real-time)</p>
+<div id="map" style="width:100%;height:300px;"></div>
+</section>
+
+
+<section>
+<h2>⚠ Fraud & Scam Alerts</h2>
+<ul>
+<li>Never share your OTP with anyone.</li>
+<li>Beware of fake callers asking for bank details.</li>
+<li>Always verify before making payments.</li>
+</ul>
+</section>
+</main>
+
+
+<footer><p>© 2025 ElderCare</p></footer>
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY"></script>
+
+
+<script>
+let lastCoords;
+
+
+function initMap() {
+    const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 15,
+        center: { lat: 20, lng: 78 }
+    });
+    const marker = new google.maps.Marker({ map, title: "Elder Location" });
+    if ("geolocation" in navigator) {
+        navigator.geolocation.watchPosition(pos => {
+            lastCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+            marker.setPosition(lastCoords);
+            map.setCenter(lastCoords);
+        });
+    }
+}
+
+
+function sendWhatsApp() {
+    const familyNumbers = [
+        localStorage.getItem("family1"),
+        localStorage.getItem("family2")
+    ].filter(Boolean); // remove null/empty
+
+
+    if (familyNumbers.length === 0) {
+        alert("⚠ No family contacts found! Please update your profile.");
+        return;
+    }
+
+
+    const defaultCountryCode = "91"; // Replace with your country code
+    const message = lastCoords
+        ? ` SOS Alert! Immediate help needed.\n Location: https://maps.google.com/?q=${lastCoords.lat},${lastCoords.lng}`
+        : ` SOS Alert! Immediate help needed.`;
+
+
+    document.getElementById("sos-status").innerText = "Opening WhatsApp for family members...";
+
+
+    familyNumbers.forEach(number => {
+        let phone = number.replace(/\D/g, ""); // remove non-numeric
+        if (phone.startsWith("0")) {
+            phone = defaultCountryCode + phone.substring(1);
+        }
+        if (/^\d{10,15}$/.test(phone)) {
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, "_blank");
+        }
+    });
+}
+
+
+window.onload = function() {
+    initMap();
+};
+</script>
+</body>
+</html>

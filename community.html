@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ElderCare - Community</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+
+
+    .btn {
+      background: #4CAF50;
+      color: white;
+      padding: 8px 14px;
+      margin: 5px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn:hover { background: #45a049; }
+
+
+    .activity-section { display: none; margin-top: 20px; }
+    video, iframe { margin-top: 10px; border-radius: 8px; }
+    #chat-box {
+      border: 1px solid #ccc;
+      padding: 10px;
+      width: 100%;
+      height: 200px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+    }
+
+
+    nav {
+      background: #4CAF50;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 8px 14px;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+    nav a:hover { background: #45a049; }
+    nav a.active { background: #2e7d32; } /* highlight current page */
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ElderCare - Community</h1>
+  </header>
+
+
+  <nav>
+    <a href="profile.html"> Profile</a>
+    <a href="assistance.html"> Assistance</a>
+    <a href="community.html" class="active"> Community</a>
+    <a href="safety.html"> SOS / Safety</a>
+    <a href="reminder.html"> Reminders</a>
+
+
+  </nav>
+
+
+  <main>
+    <h2>Choose an Activity</h2>
+    <button class="btn" onclick="showSection('yoga')">Yoga</button>
+    <button class="btn" onclick="showSection('storytelling')">Storytelling</button>
+    <button class="btn" onclick="showSection('exercise')">Exercise</button>
+    <button class="btn" onclick="showSection('chat')">Community Chat</button>
+    <button class="btn" onclick="showSection('videoCall')">Video Call</button>
+    <button class="btn" onclick="showSection('goodThoughts')">Good Thoughts</button>
+
+
+    <div id="goodThoughts" class="activity-section">
+      <h3> Good Thoughts & Wishes </h3>
+      <p id="thoughtText" style="font-size:18px; font-style:italic; color:#444; margin:10px 0;">
+        Click a button below to see a wish or thought!
+      </p>
+      <button class="btn" onclick="showGreeting('morning')"> Good Morning</button>
+      <button class="btn" onclick="showGreeting('afternoon')"> Good Afternoon</button>
+      <button class="btn" onclick="showGreeting('evening')"> Good Evening</button>
+      <button class="btn" onclick="showGreeting('night')"> Good Night</button>
+      <br><br>
+      <button class="btn" onclick="showRandomThought()"> Inspire Me</button>
+    </div>
+
+
+    <div id="yoga" class="activity-section">
+      <h3>Yoga Session</h3>
+      <p>Select a Yoga Video from YouTube:</p>
+      <button class="btn" onclick="loadYogaVideo('https://www.youtube.com/embed/v7AYKMP6rOE')">Morning Yoga</button>
+      <button class="btn" onclick="loadYogaVideo('https://www.youtube.com/embed/4pKly2JojMw')">Beginner Yoga</button>
+      <button class="btn" onclick="loadYogaVideo('https://www.youtube.com/embed/sTANio_2E0Q')">Chair Yoga</button>
+      <div id="yogaPlayer"></div>
+
+
+      <hr>
+      <p>Or Upload your own Yoga Video:</p>
+      <input type="file" id="yogaUpload" accept="video/mp4">
+      <button class="btn" onclick="uploadYoga()">Upload</button>
+      <video id="yogaVideo" controls style="display:none; width:400px;"></video>
+    </div>
+
+
+    <div id="storytelling" class="activity-section">
+      <h3>Storytelling</h3>
+      <p>Select a Storytelling Video from YouTube:</p>
+      <button class="btn" onclick="loadStoryVideo('https://www.youtube.com/embed/HqYei6NoCE4')">Grandma’s Tales</button>
+      <button class="btn" onclick="loadStoryVideo('https://www.youtube.com/embed/U2Qp5pL3ovA')">Folk Story</button>
+      <div id="storyPlayer"></div>
+
+
+      <hr>
+      <p>Or Upload your own Story (Audio/Video):</p>
+      <input type="file" id="storyUpload" accept="video/mp4,audio/mpeg">
+      <button class="btn" onclick="uploadStory()">Upload</button>
+      <video id="storyVideo" controls style="display:none; width:400px;"></video>
+      <audio id="storyAudio" controls style="display:none;"></audio>
+    </div>
+
+
+    <div id="exercise" class="activity-section">
+      <h3>Exercise</h3>
+      <p>Simple exercises for elders:</p>
+      <ul>
+        <li>Neck rotations (5 times)</li>
+        <li>Shoulder rolls (10 times)</li>
+        <li>Leg stretches (10 times)</li>
+        <li>Breathing exercise (5 mins)</li>
+      </ul>
+    </div>
+
+
+    <div id="chat" class="activity-section">
+      <h3>Community Chat</h3>
+      <div id="chat-box"></div>
+      <input type="text" id="chatInput" placeholder="Type your message..." style="width:80%">
+      <button class="btn" onclick="sendMessage()">Send</button>
+    </div>
+
+
+    <div id="videoCall" class="activity-section">
+      <h3>Video Calling</h3>
+      <video id="localVideo" autoplay playsinline style="width:400px; background:#000;"></video><br>
+      <button class="btn" onclick="startVideo()"> Camera On</button>
+      <button class="btn" onclick="stopVideo()"> Camera Off</button>
+      <p>(Demo: shows your own camera feed only. For real calls, backend signaling is needed.)</p>
+    </div>
+
+
+    <br><br>
+    <button class="btn" onclick="goToSafety()">Continue</button>
+  </main>
+
+
+  <footer>
+    <p>© 2025 ElderCare</p>
+  </footer>
+
+
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('.activity-section').forEach(sec => sec.style.display = 'none');
+      document.getElementById(id).style.display = 'block';
+    }
+
+
+    const greetings = {
+      morning: " Good Morning! Start your day with a smile and positive thoughts.",
+      afternoon: " Good Afternoon! Keep going strong, your energy inspires others.",
+      evening: " Good Evening! Take time to relax and cherish beautiful moments.",
+      night: " Good Night! May your dreams be peaceful and your sleep refreshing."
+    };
+
+
+    const thoughts = [
+      " Happiness is not something ready made. It comes from your own actions.",
+      " Every day may not be good, but there’s something good in every day.",
+      " Keep your face always toward the sunshine—and shadows will fall behind you.",
+      " The best way to cheer yourself is to try to cheer someone else up."
+    ];
+
+
+    function showGreeting(type) {
+      document.getElementById("thoughtText").textContent = greetings[type];
+    }
+
+
+    function showRandomThought() {
+      const randomIndex = Math.floor(Math.random() * thoughts.length);
+      document.getElementById("thoughtText").textContent = thoughts[randomIndex];
+    }
+
+
+    function loadYogaVideo(url) {
+      document.getElementById('yogaPlayer').innerHTML =
+        `<iframe width="400" height="250" src="${url}" frameborder="0" allowfullscreen></iframe>`;
+    }
+    function uploadYoga() {
+      const file = document.getElementById('yogaUpload').files[0];
+      if (file) {
+        const video = document.getElementById('yogaVideo');
+        video.src = URL.createObjectURL(file);
+        video.style.display = "block";
+      }
+    }
+
+
+    function loadStoryVideo(url) {
+      document.getElementById('storyPlayer').innerHTML =
+        `<iframe width="400" height="250" src="${url}" frameborder="0" allowfullscreen></iframe>`;
+    }
+    function uploadStory() {
+      const file = document.getElementById('storyUpload').files[0];
+      if (file) {
+        if (file.type.startsWith("video")) {
+          const video = document.getElementById('storyVideo');
+          video.src = URL.createObjectURL(file);
+          video.style.display = "block";
+          document.getElementById('storyAudio').style.display = "none";
+        } else if (file.type.startsWith("audio")) {
+          const audio = document.getElementById('storyAudio');
+          audio.src = URL.createObjectURL(file);
+          audio.style.display = "block";
+          document.getElementById('storyVideo').style.display = "none";
+        }
+      }
+    }
+
+
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      if (input.value.trim() !== "") {
+        const msg = document.createElement("p");
+        msg.textContent = "👤 You: " + input.value;
+        document.getElementById('chat-box').appendChild(msg);
+        input.value = "";
+      }
+    }
+
+
+    let localStream;
+    async function startVideo() {
+      try {
+        localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        document.getElementById('localVideo').srcObject = localStream;
+      } catch (err) {
+        alert("Camera not accessible: " + err);
+      }
+    }
+    function stopVideo() {
+      if (localStream) {
+        localStream.getTracks().forEach(track => track.stop());
+        document.getElementById('localVideo').srcObject = null;
+      }
+    }
+
+
+    function goToSafety() {
+      window.location.href = "safety.html";
+    }
+  </script>
+</body>
+</html>

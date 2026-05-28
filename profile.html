@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,
+initial-scale=1.0">
+<title>ElderCare - Profile</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><h1>ElderCare</h1></header>
+<nav>
+<a href="profile.html" class="active">Profile</a>
+<a href="assistance.html">Assistance</a>
+<a href="community.html">Community</a>
+<a href="reminder.html">Reminders</a>
+<a href="safety.html">SOS / Safety</a>
+</nav>
+<main>
+<h2>Create Elder Profile</h2>
+<form id="profileForm">
+<label>Name:<input type="text" name="name" required></label>
+<label>Birth Date:<input type="date" name="birthdate"
+required></label>
+<label>Address:<textarea name="address"></textarea></label>
+<label>Contact Number (Elder):<input type="tel" name="contact"
+required></label>
+<label>Age:<input type="number" name="age" min="50"
+required></label>
+<label>Gender:</label>
+<div>
+<label><input type="radio" name="gender" value="Male">
+Male</label>
+<label><input type="radio" name="gender" value="Female">
+Female</label>
+<label><input type="radio" name="gender" value="Other">
+Other</label>
+</div>
+<label>Elder Photo:<input type="file" name="photo"
+accept="image/*"></label>
+<h3>Family Members</h3>
+<label>Family member #1 Phone:<input type="tel"
+name="family1"></label>
+<label>Relation:<input type="text" name="relation1"></label>
+<label>Family member #2 Phone:<input type="tel"
+name="family2"></label>
+<label>Relation:<input type="text" name="relation2"></label>
+<button type="submit" class="btn">Save Profile</button>
+<a href="index.html" class="btn">Cancel</a>
+</form>
+</main>
+<footer><p>© 2025 ElderCare</p></footer>
+<script>
+document.getElementById("profileForm").addEventListener("submit",
+function(event) {
+event.preventDefault();
+const form = event.target;
+// Save details to localStorage
+localStorage.setItem("elderName", form.name.value);
+localStorage.setItem("elderPhone", form.contact.value);
+localStorage.setItem("birthdate", form.birthdate.value);
+localStorage.setItem("address", form.address.value);
+localStorage.setItem("age", form.age.value);
+localStorage.setItem("gender", form.gender.value);
+localStorage.setItem("family1", form.family1.value);
+localStorage.setItem("relation1", form.relation1.value);
+localStorage.setItem("family2", form.family2.value);
+localStorage.setItem("relation2", form.relation2.value);
+alert("✅ Profile saved successfully!");
+window.location.href = "assistance.html";
+});
+</script>
+</body>
+</html>
