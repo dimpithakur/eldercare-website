@@ -4,7 +4,7 @@ ElderCare is a web-based project designed to support elderly people with daily a
 
 This project was created using HTML, CSS, and JavaScript.
 
-##Features
+## Features
 
 - Elder Profile Creation
 - Assistance Section
