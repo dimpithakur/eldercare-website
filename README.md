@@ -15,7 +15,7 @@ This project was created using HTML, CSS, and JavaScript.
 - Responsive Navigation Bar
 - Clean and Simple Design
 
-##Pages Included
+## Pages Included
 
 - Profile Page
 - Assistance Section
