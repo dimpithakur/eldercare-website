@@ -41,7 +41,7 @@ https://dimpithakur.github.io/eldercare-website/
 
 https://github.com/dimpithakur/eldercare-website
 
-## 👩‍💻 Developed By
+## Developed By
 
 Dimpi Thakur  
 BSc Computer Science Student
